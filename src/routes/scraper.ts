@@ -65,10 +65,10 @@ router.get('/scrape/webscraper', async (req: Request, res: Response) => {
     logger.info(`Scraping webscraper.io page ${page}`);
 
     const result = await scraper.scrapeWebscraper(page);
-    res.json(result);
+    return res.json(result);
   } catch (error) {
     logger.error('Route error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Scraping failed',
       message: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString(),
@@ -134,10 +134,10 @@ router.post('/scrape/custom', async (req: Request, res: Response) => {
 
     logger.info(`Custom scraping request: ${url}`);
     const result = await scraper.scrapeCustom(options);
-    res.json(result);
+    return res.json(result);
   } catch (error) {
     logger.error('Route error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Scraping failed',
       message: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString(),

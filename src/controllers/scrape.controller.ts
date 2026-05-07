@@ -10,7 +10,7 @@ export const getScrapeTestSites = asyncHandler(async (_req: Request, res: Respon
   const startTime = Date.now();
   const sites = await scraperService.scrapeTestSites();
 
-  buildResponse.success(res, sites, 200, {
+  return buildResponse.success(res, sites, 200, {
     count: sites.length,
     durationMs: Date.now() - startTime,
     targetUrl: env.SCRAPER_BASE_URL,
@@ -29,7 +29,7 @@ export const getScrapeEcommerceProducts = asyncHandler(async (req: Request, res:
 
   const products = await scraperService.scrapeEcommerceProducts(limit);
 
-  buildResponse.success(res, products, 200, {
+  return buildResponse.success(res, products, 200, {
     count: products.length,
     durationMs: Date.now() - startTime,
     targetUrl: env.SCRAPER_ECOMMERCE_URL,
@@ -53,7 +53,7 @@ export const postScrapeRun = asyncHandler(async (req: Request, res: Response) =>
     });
   }
 
-  buildResponse.success(res, result.data, 200, {
+  return buildResponse.success(res, result.data, 200, {
     count: Array.isArray(result.data) ? result.data.length : 0,
     durationMs: result.meta.durationMs,
     targetUrl: result.meta.targetUrl,

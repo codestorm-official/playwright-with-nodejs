@@ -1,4 +1,4 @@
-import { chromium, firefox, webkit, Browser, Page } from 'playwright';
+import { chromium, firefox, webkit, Browser } from 'playwright';
 import logger from './config/logger';
 
 export interface ScraperOptions {
@@ -115,7 +115,7 @@ class Scraper {
           const elements = document.querySelectorAll(selector);
           return {
             selectorMatches: elements.length,
-            content: Array.from(elements).map(el => ({
+            content: Array.from(elements).map((el) => ({
               text: el.textContent?.trim(),
               html: el.innerHTML,
             })),

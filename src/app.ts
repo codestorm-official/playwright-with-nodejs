@@ -11,7 +11,6 @@ import healthRoutes from './routes/health.routes';
 import scrapeRoutes from './routes/scrape.routes';
 import testRoutes from './routes/test.routes';
 import { getHealth } from './controllers/health.controller';
-import { asyncHandler } from './utils/async-handler';
 
 export const createApp = () => {
   const app = express();
@@ -48,7 +47,7 @@ export const createApp = () => {
   }));
 
   // Health endpoint (outside routes for better availability)
-  app.get('/health', asyncHandler(getHealth));
+  app.get('/health', getHealth);
 
   // API routes
   app.use('/health', healthRoutes);
