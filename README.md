@@ -30,6 +30,7 @@ The API runs on `http://localhost:3000` by default.
 
 Useful URLs:
 
+- Root: `http://localhost:3000/` redirects to `/docs`
 - Health: `http://localhost:3000/health`
 - Swagger UI: `http://localhost:3000/docs`
 - OpenAPI JSON: `http://localhost:3000/openapi.json`
@@ -51,6 +52,14 @@ npm run zip            # Build and create distribution zip
 ```
 
 ## API Endpoints
+
+### Root
+
+```http
+GET /
+```
+
+Redirects to `/docs`.
 
 ### Health
 
@@ -216,6 +225,7 @@ The Dockerfile uses Debian slim instead of Alpine so Playwright can install Chro
 ## Notes
 
 - Scraping and e2e tests depend on external network access to `webscraper.io`.
+- Swagger uses a relative OpenAPI server URL (`/`) so the "Try it out" button calls the same origin used to open `/docs`.
 - Endpoint-level `headless` values are accepted by current schemas for compatibility, but browser mode is controlled by `PLAYWRIGHT_HEADLESS`.
 - `src/scraper.ts` is a legacy standalone scraper used by Jest tests; the main API uses the service/controller stack under `src/services` and `src/controllers`.
 

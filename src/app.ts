@@ -33,9 +33,14 @@ export const createApp = () => {
   // Rate limiting
   app.use(rateLimitMiddleware);
 
+  // Root endpoint redirects users to interactive API documentation
+  app.get('/', (_req, res) => {
+    return res.redirect('/docs');
+  });
+
   // Swagger/OpenAPI documentation
   app.get('/openapi.json', (_req, res) => {
-    res.json(swaggerSpec);
+    return res.json(swaggerSpec);
   });
 
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {

@@ -16,6 +16,14 @@ test.describe('Health Endpoint', () => {
 });
 
 test.describe('Swagger Documentation', () => {
+  test('should redirect root to Swagger UI', async ({ request }) => {
+    const response = await request.get('/');
+    expect(response.status()).toBe(200);
+
+    const contentType = response.headers()['content-type'];
+    expect(contentType).toContain('text/html');
+  });
+
   test('should serve Swagger UI', async ({ request }) => {
     const response = await request.get('/docs');
     expect(response.status()).toBe(200);
@@ -32,6 +40,7 @@ test.describe('Swagger Documentation', () => {
     expect(data).toHaveProperty('openapi');
     expect(data).toHaveProperty('info');
     expect(data).toHaveProperty('paths');
+    expect(data.servers[0]).toHaveProperty('url', '/');
     expect(data.info).toHaveProperty('title', 'Playwright Scraper API');
   });
 });
