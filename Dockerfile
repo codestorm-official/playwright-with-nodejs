@@ -26,9 +26,12 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi \
-    && npx playwright install --with-deps chromium
+# Install production dependencies without downloading browsers in npm lifecycle
+RUN mkdir -p /ms-playwright
+RUN if [ -f package-lock.json ]; then PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci --omit=dev; else PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install --omit=dev; fi
+
+# Install the Chromium revision that matches the installed Playwright package
+RUN node ./node_modules/playwright/cli.js install --with-deps chromium
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
